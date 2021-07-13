@@ -22,3 +22,11 @@ for i in range(diastasi):
 S = Matrix(GF(2), pinakes)
 
 print(S)
+
+pinakes = []
+for i in range(G1.ncols()):
+    tmplist = [random.randint(0, 2) for j in range(diastasi_coded)]
+    pinakes.append(tmplist)
+
+P = Matrix(GF(2), pinakes)
+print(P)
