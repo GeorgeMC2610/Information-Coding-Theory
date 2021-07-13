@@ -13,3 +13,12 @@ for i in range(diastasi):
 
 G1 = Matrix(GF(2), pinakes)
 print(G1)
+
+pinakes = []
+for i in range(diastasi):
+    tmplist = [random.randint(0, 2) for j in range(diastasi)]
+    pinakes.append(tmplist)
+
+S = Matrix(GF(2), pinakes)
+
+print(S)
