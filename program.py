@@ -1,9 +1,39 @@
 import random
-import numpy as np
+import math
 
-msg = [0, 1, 0, 1, 1]
-diastasi = len(msg)
-diastasi_coded = 8
+diastasi_coded_kyklikou = 12 #input
+
+x = PolynomialRing(RationalField(), 'x').gen()
+f = x^(diastasi_coded_kyklikou) + 1
+print("f(x) Starting Polynomial:")
+print(f)
+print()
+
+factored_f = f.factor()[0][0]
+
+if factored_f.degree() == f.degree() and f.degree() % 2 == 0:
+    factored_f = x^2 + 1 + 2*x * round(math.cos(math.pi/(f.degree()/2)), 3)
+elif factored_f.degree() == f.degree() and f.degree() % 2 != 0:
+    factored_f = (x + 1) * (x^2 + 1 + 2*x * math.cos(2*math.pi/(f.degree())))
+
+print("First term of factored f(x): ")
+print(factored_f)
+print()
+
+print("The dimensions of the linear code has to be: ")
+diastasi_coded          = diastasi_coded_kyklikou - factored_f.degree()
+print(str(diastasi_coded_kyklikou) + " - " + str(factored_f.degree()) + " = " + str(diastasi_coded))
+print()
+
+diastasi_kyklikou       = diastasi_coded
+msg                     = [0, 1, 0, 1, 1] #input, has to be until diastasi_coded-1
+diastasi                = len(msg)
+
+G2 = factored_f.coefficients(sparse=False) + [0 for i in range(diastasi_kyklikou - 1)]
+print("Coefficients of factored f(x): ")
+print(G2)
+print()
+
 
 msg = Matrix(GF(2), msg)
 
@@ -49,24 +79,4 @@ print()
 c = msg * Gtonos
 print("Coded Message: ")
 print(c)
-print()
-
-diastasi_kyklikou = diastasi_coded
-diastasi_coded_kyklikou = 18
-
-x = PolynomialRing(RationalField(), 'x').gen()
-f = x^(diastasi_coded_kyklikou) + 1
-print("f(x) Starting Polynomial:")
-print(f)
-print()
-
-factored_f = f.factor()[0][0]
-
-if factored_f.degree() == f.degree() and f.degree() % 2 == 0:
-    factored_f = x^2 + 1 + 2*x * round(math.cos(math.pi/(f.degree()/2)), 3)
-elif factored_f.degree() == f.degree() and f.degree() % 2 != 0:
-    factored_f = (x + 1) * (x^2 + 1 + 2*x * math.cos(2*math.pi/(f.degree())))
-
-print("First term of factored f(x): ")
-print(factored_f)
 print()
