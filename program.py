@@ -60,14 +60,13 @@ print("f(x) Starting Polynomial:")
 print(f)
 print()
 
-factored_f = f.factor()
+factored_f = f.factor()[0][0]
 
-if factored_f[0][0].degree() == f.degree() and f.degree() % 2 == 0:
-    factored_f = factored_f[0][0]
+if factored_f.degree() == f.degree() and f.degree() % 2 == 0:
     factored_f = x^2 + 1 + 2*x * round(math.cos(math.pi/(f.degree()/2)), 3)
-elif factored_f[0][0].degree() == f.degree() and f.degree() % 2 != 0:
-    factored_f = factored_f[0][0]
+elif factored_f.degree() == f.degree() and f.degree() % 2 != 0:
     factored_f = (x + 1) * (x^2 + 1 + 2*x * math.cos(2*math.pi/(f.degree())))
 
-print("Factored f(x):")
+print("First term of factored f(x): ")
 print(factored_f)
+print()
