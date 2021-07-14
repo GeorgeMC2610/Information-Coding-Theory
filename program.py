@@ -49,3 +49,13 @@ c = msg * Gtonos
 print("Coded Message: ")
 print(c)
 print()
+
+diastasi_kyklikou = diastasi_coded
+diastasi_coded_kyklikou = 18
+
+x = PolynomialRing(RationalField(), 'x').gen()
+f = x^(diastasi_coded_kyklikou) + 1
+f = f.factor()
+
+print("Factored f(x):")
+print(f)
