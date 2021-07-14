@@ -71,12 +71,12 @@ print(Gtonos)
 print()
 
 c = msg * Gtonos
-print("Coded Message: ")
+print("Linear Coded Message: ")
 print(c)
 print()
 
 pinakes = []
-print("All coded messages for " + str(diastasi) + "-bit inputs: ")
+print("All linear coded messages for " + str(diastasi) + "-bit inputs: ")
 for i in range(2**diastasi):
     tmp=bin(i)[2:]
     tmp=((diastasi-1)*"0"+tmp)[-diastasi:]
@@ -87,7 +87,19 @@ c = Matrix(GF(2), pinakes)
 print(c*Gtonos)
 print()
 
-G2 = factored_f.coefficients(sparse=False) + [0 for i in range(diastasi_kyklikou - 1)]
+pinakes = []
+tmp = factored_f.coefficients(sparse=False) + [0 for i in range(diastasi_kyklikou - 1)]
+pinakes.append(tmp)
+for i in range(diastasi_kyklikou - 1):
+    tmp = [tmp[-1]] + tmp[:-1]
+    pinakes.append(tmp)
+
+G2 = Matrix(GF(2), pinakes)
+
 print("Coefficients of factored f(x): ")
+print(G2[0])
+print()
+
+print("G2: ")
 print(G2)
 print()
