@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 msg = [0, 1, 0, 1, 1]
 diastasi = len(msg)
@@ -55,7 +56,18 @@ diastasi_coded_kyklikou = 18
 
 x = PolynomialRing(RationalField(), 'x').gen()
 f = x^(diastasi_coded_kyklikou) + 1
-f = f.factor()
+print("f(x) Starting Polynomial:")
+print(f)
+print()
+
+factored_f = f.factor()
+
+if factored_f[0][0].degree() == f.degree() and f.degree() % 2 == 0:
+    factored_f = factored_f[0][0]
+    factored_f = x^2 + 1 + 2*x * round(math.cos(math.pi/(f.degree()/2)), 3)
+elif factored_f[0][0].degree() == f.degree() and f.degree() % 2 != 0:
+    factored_f = factored_f[0][0]
+    factored_f = (x + 1) * (x^2 + 1 + 2*x * math.cos(2*math.pi/(f.degree())))
 
 print("Factored f(x):")
-print(f)
+print(factored_f)
