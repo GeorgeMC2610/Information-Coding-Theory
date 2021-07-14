@@ -29,12 +29,6 @@ diastasi_kyklikou       = diastasi_coded
 msg                     = [0, 1, 0, 1, 1] #input, has to be until diastasi_coded-1
 diastasi                = len(msg)
 
-G2 = factored_f.coefficients(sparse=False) + [0 for i in range(diastasi_kyklikou - 1)]
-print("Coefficients of factored f(x): ")
-print(G2)
-print()
-
-
 msg = Matrix(GF(2), msg)
 
 pinakes = []
@@ -79,4 +73,21 @@ print()
 c = msg * Gtonos
 print("Coded Message: ")
 print(c)
+print()
+
+pinakes = []
+print("All coded messages for " + str(diastasi) + "-bit inputs: ")
+for i in range(2**diastasi):
+    tmp=bin(i)[2:]
+    tmp=((diastasi-1)*"0"+tmp)[-diastasi:]
+    tmp=list(tmp)
+    tmp=[int(j) for j in tmp]
+    pinakes.append(tmp)
+c = Matrix(GF(2), pinakes)
+print(c*Gtonos)
+print()
+
+G2 = factored_f.coefficients(sparse=False) + [0 for i in range(diastasi_kyklikou - 1)]
+print("Coefficients of factored f(x): ")
+print(G2)
 print()
