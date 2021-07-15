@@ -1,8 +1,16 @@
 import random
 import math
 
-diastasi_coded_kyklikou = 7 #input >=3 kai peritto
+#diastasi_coded_kyklikou must be odd and have length >=3
 
+diastasi_coded_kyklikou=2
+while(diastasi_coded_kyklikou % 2 == 0 or diastasi_coded_kyklikou < 3):
+    try:
+        diastasi_coded_kyklikou = int(input("Give the cyclic code dimension(it has to be an odd integer and at least 3):"))
+    except:
+        print("Please give an odd integer")
+
+#starting polynomial
 F.<x> = GF(2)[]
 f = x^(diastasi_coded_kyklikou) + 1
 print("Starting cyclic code polynomial:")
@@ -16,7 +24,8 @@ print()
 
 #-If factorisation was successfull, get a random term
 #-If factorisation was not successfull, we factor the polynomial
-#depending on the product formulas that can be found in:
+#depending on the product formulas that can be found in: 
+#https://el.wikipedia.org/wiki/%CE%A0%CE%B1%CF%81%CE%B1%CE%B3%CE%BF%CE%BD%CF%84%CE%BF%CF%80%CE%BF%CE%AF%CE%B7%CF%83%CE%B7
 #note that we take only the first term for k=0(even case) or k=1(odd case)
 
 terms = len(factor(f))
@@ -46,15 +55,31 @@ diastasi_coded          = diastasi_coded_kyklikou - factored_f_term1.degree()
 print(str(diastasi_coded_kyklikou) + " - " + str(factored_f_term1.degree()) + " = " + str(diastasi_coded))
 print()
 
-diastasi_kyklikou       = diastasi_coded
-msg                     = [1,0,1] #max length is diastasi_coded - 1
-diastasi                = len(msg)
+diastasi_kyklikou       = diastasi_coded #the input of cyclic code is the output of the linear
+
+
+# Give the starting msg input with the correct dimension.Every odd/even value you give, corresponds to it's mod 2 value
+# in the final msg vector(matrix)
+while(True):
+    try:
+        msg = input("Give your input message for linear code(length can have a maximum value of "+str(diastasi_coded - 1)+")"+
+                     "split your elements with space: ")
+        msg_el = msg.split()
+        msg_el=[int(i) for i in msg_el]
+        if(len(msg_el) > diastasi_coded - 1 or msg == "" or msg.isspace()):
+            continue
+        break
+    except:
+        print("Elements must be only integers")
+
+diastasi = len(msg_el)
+msg_el=Matrix(GF(2),msg_el)
 
 print("input code is:")
-print(Matrix(GF(2),msg))
+print(msg_el)
 print()
 
-msg = Matrix(GF(2), msg)
+msg = msg_el
 
 #Creation of a random inversable S matrix. S must have diastasi X diastasi dimensions.
 #S is inversable because it becomes from an I_{diastasi} matrix on which only a few row
@@ -215,12 +240,3 @@ print()
 decoded = cyclic.decode_to_message(vector(GF(2), corrupted_ctonos))
 print("Decoded corrupted message:")
 print(decoded)
-
-
-
-
-
-
-
-
-
