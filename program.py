@@ -50,7 +50,22 @@ diastasi_kyklikou       = diastasi_coded
 msg                     = [1,0,1,0] #max length is diastasi_coded - 1
 diastasi                = len(msg)
 
+print("input code is:")
+print(Matrix(GF(2),msg))
+print()
+
 msg = Matrix(GF(2), msg)
+
+#creation of random S matrix. S must have diastasi X diastasi dimensions
+pinakes = []
+for i in range(diastasi):
+    tmplist = [random.randint(0, 1) for j in range(diastasi)]
+    pinakes.append(tmplist)
+
+S = Matrix(GF(2), pinakes)
+print("MATRIX S: ")
+print(S)
+print()
 
 #creation of G1 matrix. G1 must have diastasi X diastasi_coded dimensions (P part on G1 matrix is added randomly)
 pinakes = []
@@ -67,24 +82,24 @@ print("MATRIX G1: ")
 print(G1)
 print()
 
-#creation of random S matrix. S must have diastasi X diastasi dimensions
-pinakes = []
-for i in range(diastasi):
-    tmplist = [random.randint(0, 1) for j in range(diastasi)]
-    pinakes.append(tmplist)
+#make a random permutation of I and name it P
+perm_el = [i for i in range(1,diastasi_coded+1)] #(1,2,3,4,...,diastasi_coded)
+random.shuffle(perm_el)
+perm_el = str(tuple(perm_el))
 
-S = Matrix(GF(2), pinakes)
-print("MATRIX S: ")
-print(S)
-print()
+perm1 = [i for i in range(1,(diastasi_coded)//2 + 1)] #half of the above shuffled
+random.shuffle(perm1)
+perm1 = str(tuple(perm1))
 
-#creation of random P matrix. P must have diastasi_coded X diastasi_coded dimensions
-pinakes = []
-for i in range(diastasi_coded):
-    tmplist = [random.randint(0, 1) for j in range(diastasi_coded)]
-    pinakes.append(tmplist)
+perm2 = [i for i in range((diastasi_coded)//2 + 1, diastasi_coded+1)] #other half of the above shuffled
+random.shuffle(perm2)
+perm2 = str(tuple(perm2))
 
-P = Matrix(GF(2), pinakes)
+P = matrix.identity(diastasi_coded)
+Per = PermutationGroup([perm1 + perm2, perm_el]) #ex. (1,3,2)(5,4),(1,2,3,4,5) means that the first column will be the third column,
+sigma, tau = Per.gens()                          #the third column will be the second one, the second one will be the first one, the
+P.permute_columns(sigma)                         #fifth one will be the forth one and the forth one will be the fifth one
+
 print("MATRIX P: ")
 print(P)
 print()
@@ -179,10 +194,6 @@ print()
 corrupted_ctonos = ctonos + sfalma
 print("Corrupted Message:")
 print(corrupted_ctonos)
-
-
-
-
 
 
 
