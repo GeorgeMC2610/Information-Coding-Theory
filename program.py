@@ -56,13 +56,16 @@ print()
 
 msg = Matrix(GF(2), msg)
 
-#creation of random S matrix. S must have diastasi X diastasi dimensions
-pinakes = []
-for i in range(diastasi):
-    tmplist = [random.randint(0, 1) for j in range(diastasi)]
-    pinakes.append(tmplist)
+#Creation of a random inversable S matrix. S must have diastasi X diastasi dimensions.
+#S is inversable because it becomes from an I_{diastasi} matrix on which only a few row
+#transformations have been made(we add random rows together)
+S = matrix.identity(diastasi)
+for i in range(2*diastasi):
+    random_row1 = random.randint(0, diastasi -1)
+    random_row2 = random.randint(0, diastasi -1)
+    S[random_row1] = S[random_row1] + S[random_row2]
 
-S = Matrix(GF(2), pinakes)
+S = Matrix(GF(2), S)
 print("MATRIX S: ")
 print(S)
 print()
@@ -194,6 +197,10 @@ print()
 corrupted_ctonos = ctonos + sfalma
 print("Corrupted Message:")
 print(corrupted_ctonos)
+
+
+
+
 
 
 
